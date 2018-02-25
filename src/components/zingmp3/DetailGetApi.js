@@ -20,7 +20,9 @@ class DetailGetApi extends React.Component {
           {" "}
           <h1>Song Name:{song.title}</h1>
         </div>
-
+        <div className="artists">
+          <h2>{"Artists:" + song.artists}</h2>
+        </div>
         <div className="thumbmail">
           <img src={song.thumb} className="img" />
         </div>
