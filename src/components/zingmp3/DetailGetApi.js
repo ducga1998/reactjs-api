@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { browserHistory } from "react-router";
 import Audio from "../common/Audio";
 
-
+import { Link } from "react-router";
 class DetailGetApi extends React.Component {
   constructor() {
     super();
@@ -14,11 +14,17 @@ class DetailGetApi extends React.Component {
   render() {
     console.log(this.props.song);
     let song=this.props.song;
+      let songNext = getNextSongCurrent(this.props.Songs, song.order);
+       let songPre = getPreSongCurrent(this.props.Songs, song.order);
 
     return <div>
         <div className="titleSong">
           {" "}
           <h1>Song Name:{song.title}</h1>
+          ({songPre.title})
+          <Link to={"/getapi/" + songPre._id}>Previous Songs</Link>
+          {"|||"}
+          <Link to={"/getapi/" + songNext._id}>Next Songs</Link>({songNext.title})
         </div>
         <div className="artists">
           <h2>{"Artists:" + song.artists}</h2>
@@ -34,7 +40,22 @@ class DetailGetApi extends React.Component {
   }
 }
 
-
+function getNextSongCurrent(Songs,order){
+  if (order == 1) {
+    order--;
+  }
+   const song = Songs.filter(s => s.order == order+1);
+   if (song) return song[0]; //since filter returns an array, have to grab the first.
+   return null;
+}
+function getPreSongCurrent(Songs,order){
+  if (order == 1) {
+    order++;
+  }
+   const song = Songs.filter(s => s.order == order-1);
+   if (song) return song[0]; //since filter returns an array, have to grab the first.
+   return null;
+}
 function getSongById(Songs, id) {
   const song = Songs.filter(s => s._id == id);
   if (song) return song[0]; //since filter returns an array, have to grab the first.
@@ -49,7 +70,7 @@ function mapStateToProps(state, ownProps) {
     song = getSongById(state.Songs, songId);
   }
 
-  return { song: song };
+  return { song: song,Songs:state.Songs };
 }
 
 

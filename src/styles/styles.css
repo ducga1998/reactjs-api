@@ -144,6 +144,11 @@ body {
     color: #64b67f;
 }
 
+.thumbmail img {
+    width: 150px;
+    height: 150px;
+}
+
 .thumbmail,
 .artists {
     text-align: center;
